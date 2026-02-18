@@ -9,6 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="demo.css">
   <!-- OGP -->
   <meta property="og:title" content="Work Mate — あなたの作業を、静かに見守る">
   <meta property="og:description" content="クリエイターのためのアンビエント作業トラッカー。キャラクターがあなたの作業を静かに見守ります。">
@@ -218,31 +219,196 @@
     </div>
   </section>
 
-  <!-- ========== Video Section ========== -->
-  <section id="video" class="section video-section">
+  <!-- ========== Interactive Demo Section ========== -->
+  <section id="demo" class="section demo-section">
     <div class="container">
       <h2 class="section-title">
-        <span class="ja">トレーラー</span>
-        <span class="en">Trailer</span>
+        <span class="ja">デモ</span>
+        <span class="en">Demo</span>
       </h2>
-      <div class="video-wrapper">
-        <!-- YouTube埋め込み: 動画URL確定後に src を差し替え -->
-        <div class="video-placeholder">
-          <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor" opacity="0.5"><path d="M8 5v14l11-7z"/></svg>
-          <p>
-            <span class="ja">トレーラー動画（準備中）</span>
-            <span class="en">Trailer video (Coming soon)</span>
-          </p>
+      <p class="section-subtitle">
+        <span class="ja">ボタンを切り替えて、アプリの動作を体験できます。</span>
+        <span class="en">Switch between states to experience how the app works.</span>
+      </p>
+
+      <!-- Desktop: Interactive Demo -->
+      <div class="demo-desktop">
+        <div class="demo-wrapper" data-animate>
+          <div class="demo-app">
+            <!-- Character Area -->
+            <div class="demo-character state-work">
+              <div class="demo-char-bg"></div>
+              <div class="demo-char-video-container">
+                <video class="demo-char-video demo-char-video-0 active" muted playsinline></video>
+                <video class="demo-char-video demo-char-video-1" muted playsinline></video>
+              </div>
+              <div class="demo-char-overlay">
+                <div class="demo-state-label">WORK</div>
+                <div class="demo-work-time">00:00:00</div>
+                <div class="demo-work-time-label">
+                  <span class="ja">今日の作業時間</span>
+                  <span class="en">Today's work time</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Navigation -->
+            <nav class="demo-nav">
+              <button class="demo-nav-tab active" data-tab="timer" title="Timer">⏱</button>
+              <button class="demo-nav-tab locked" data-tab="week" title="Week Chart">📊</button>
+              <button class="demo-nav-tab locked" data-tab="day" title="Day Chart">📈</button>
+              <button class="demo-nav-tab" data-tab="music" title="Music">🎵</button>
+              <button class="demo-nav-tab locked" data-tab="calendar" title="Calendar">📅</button>
+              <button class="demo-nav-tab locked" data-tab="character" title="Character">👤</button>
+              <button class="demo-nav-tab locked" data-tab="settings" title="Settings">⚙</button>
+            </nav>
+
+            <!-- Content Panels -->
+            <div class="demo-content">
+              <!-- Timer Panel -->
+              <div class="demo-panel demo-panel-timer demo-pomodoro active" data-panel="timer">
+                <div class="demo-pomo-status">
+                  <span class="demo-pomo-status-icon">⏱</span>
+                  <span class="demo-pomo-status-label">Ready</span>
+                </div>
+                <div class="demo-pomo-display">
+                  <div class="demo-pomo-ring">
+                    <svg viewBox="0 0 150 150">
+                      <circle class="ring-bg" cx="75" cy="75" r="68"/>
+                      <circle class="ring-progress demo-pomo-progress" cx="75" cy="75" r="68"/>
+                    </svg>
+                  </div>
+                  <div class="demo-pomo-time">25:00</div>
+                </div>
+                <div class="demo-pomo-controls">
+                  <button class="demo-pomo-btn demo-pomo-reset" title="Reset">↺</button>
+                  <button class="demo-pomo-btn start-btn demo-pomo-start" title="Start">▶</button>
+                </div>
+                <div class="demo-pomo-count">
+                  <span class="demo-pomo-count-label">
+                    <span class="ja">完了</span>
+                    <span class="en">Done</span>
+                  </span>
+                  <span class="demo-pomo-count-value">0</span>
+                </div>
+              </div>
+
+              <!-- Music Panel -->
+              <div class="demo-panel demo-music" data-panel="music">
+                <div class="demo-music-now">
+                  <div class="demo-music-now-label">Now Playing</div>
+                  <div class="demo-music-now-track">Minimalist</div>
+                </div>
+                <div class="demo-music-controls">
+                  <button class="demo-music-btn demo-music-prev" title="Previous">⏮</button>
+                  <button class="demo-music-btn play-btn demo-music-play" title="Play">▶</button>
+                  <button class="demo-music-btn demo-music-next" title="Next">⏭</button>
+                </div>
+                <div class="demo-music-volume">
+                  <span class="demo-music-volume-icon">🔊</span>
+                  <input type="range" class="demo-volume-slider" min="0" max="100" value="50">
+                </div>
+                <div class="demo-music-playlist">
+                  <div class="demo-playlist-header">Playlist</div>
+                  <div class="demo-playlist-items"></div>
+                </div>
+              </div>
+
+              <!-- Locked Panels -->
+              <div class="demo-panel demo-locked" data-panel="week">
+                <div class="demo-locked-icon">🔒</div>
+                <div class="demo-locked-text">
+                  <span class="ja">週間チャートはデモ版では利用できません</span>
+                  <span class="en">Weekly chart is not available in the demo</span>
+                </div>
+                <div class="demo-locked-cta">
+                  <a href="https://haruhisky.booth.pm/items/7986308">
+                    <span class="ja">無料版をダウンロード →</span>
+                    <span class="en">Download the free version →</span>
+                  </a>
+                </div>
+              </div>
+              <div class="demo-panel demo-locked" data-panel="day">
+                <div class="demo-locked-icon">🔒</div>
+                <div class="demo-locked-text">
+                  <span class="ja">日別チャートはデモ版では利用できません</span>
+                  <span class="en">Daily chart is not available in the demo</span>
+                </div>
+                <div class="demo-locked-cta">
+                  <a href="https://haruhisky.booth.pm/items/7986308">
+                    <span class="ja">無料版をダウンロード →</span>
+                    <span class="en">Download the free version →</span>
+                  </a>
+                </div>
+              </div>
+              <div class="demo-panel demo-locked" data-panel="calendar">
+                <div class="demo-locked-icon">🔒</div>
+                <div class="demo-locked-text">
+                  <span class="ja">カレンダーはデモ版では利用できません</span>
+                  <span class="en">Calendar is not available in the demo</span>
+                </div>
+                <div class="demo-locked-cta">
+                  <a href="https://haruhisky.booth.pm/items/7986308">
+                    <span class="ja">無料版をダウンロード →</span>
+                    <span class="en">Download the free version →</span>
+                  </a>
+                </div>
+              </div>
+              <div class="demo-panel demo-locked" data-panel="character">
+                <div class="demo-locked-icon">🔒</div>
+                <div class="demo-locked-text">
+                  <span class="ja">キャラクター選択はデモ版では利用できません</span>
+                  <span class="en">Character select is not available in the demo</span>
+                </div>
+                <div class="demo-locked-cta">
+                  <a href="https://haruhisky.booth.pm/items/7986421">
+                    <span class="ja">コンプリート版をダウンロード →</span>
+                    <span class="en">Download the complete edition →</span>
+                  </a>
+                </div>
+              </div>
+              <div class="demo-panel demo-locked" data-panel="settings">
+                <div class="demo-locked-icon">🔒</div>
+                <div class="demo-locked-text">
+                  <span class="ja">設定はデモ版では利用できません</span>
+                  <span class="en">Settings are not available in the demo</span>
+                </div>
+                <div class="demo-locked-cta">
+                  <a href="https://haruhisky.booth.pm/items/7986308">
+                    <span class="ja">無料版をダウンロード →</span>
+                    <span class="en">Download the free version →</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <!-- 動画URLが確定したら以下のコメントを解除して差し替え:
-        <iframe
-          src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
-          title="Work Mate Trailer"
-          frameborder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowfullscreen>
-        </iframe>
-        -->
+
+        <!-- State Control Buttons -->
+        <div class="demo-state-controls">
+          <button class="demo-state-btn active" data-state="work"><span class="ja">作業中</span><span class="en">WORK</span></button>
+          <button class="demo-state-btn" data-state="slacking"><span class="ja">サボり中</span><span class="en">SLACKING</span></button>
+          <button class="demo-state-btn" data-state="break"><span class="ja">休憩中</span><span class="en">BREAK</span></button>
+          <button class="demo-state-btn" data-state="away"><span class="ja">離席中</span><span class="en">AWAY</span></button>
+        </div>
+        <p class="demo-hint">
+          <span class="ja">↑ ボタンで状態を切り替えてみてください</span>
+          <span class="en">↑ Try switching states with the buttons above</span>
+        </p>
+      </div>
+
+      <!-- Mobile: Screenshot Gallery -->
+      <div class="demo-mobile-gallery">
+        <div class="demo-gallery-grid">
+          <img src="images/001.png" alt="Screenshot 1" loading="lazy">
+          <img src="images/002.png" alt="Screenshot 2" loading="lazy">
+          <img src="images/003.png" alt="Screenshot 3" loading="lazy">
+          <img src="images/004.png" alt="Screenshot 4" loading="lazy">
+          <img src="images/005.png" alt="Screenshot 5" loading="lazy">
+          <img src="images/006.png" alt="Screenshot 6" loading="lazy">
+          <img src="images/007.png" alt="Screenshot 7" loading="lazy">
+          <img src="images/008.png" alt="Screenshot 8" loading="lazy">
+        </div>
       </div>
     </div>
   </section>
@@ -359,5 +525,6 @@
   </footer>
 
   <script src="script.js"></script>
+  <script src="demo.js"></script>
 </body>
 </html>
