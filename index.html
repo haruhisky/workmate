@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="ja" data-lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Work Mate — あなたの作業を、静かに見守る</title>
+  <meta name="description" content="ペンが止まっているのに、タイマーは動いている。なぜ？ — Work Mateはクリエイターのための作業記録タイマーです。">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- OGP -->
+  <meta property="og:title" content="Work Mate — あなたの作業を、静かに見守る">
+  <meta property="og:description" content="クリエイターのためのアンビエント作業トラッカー。キャラクターがあなたの作業を静かに見守ります。">
+  <meta property="og:type" content="website">
+  <!-- <meta property="og:image" content="YOUR_OGP_IMAGE_URL"> -->
+</head>
+<body>
+
+  <!-- ========== Language Toggle ========== -->
+  <div class="lang-toggle" aria-label="Language switcher">
+    <button class="lang-btn active" data-set-lang="ja">JA</button>
+    <span class="lang-divider">/</span>
+    <button class="lang-btn" data-set-lang="en">EN</button>
+  </div>
+
+  <!-- ========== Hero Section ========== -->
+  <!-- 画像差し替え: 3種類から選択。hero-orange.jpeg / hero-orange-simple.jpeg / hero-cream.jpeg -->
+  <section id="hero" class="hero" style="background-image: url('images/hero-black.jpg');">
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <div class="hero-catchcopy">
+        <span class="ja">ペンが止まっているのに、<br>タイマーは動いている。<br><em>なぜ？</em></span>
+        <span class="en">The pen has stopped,<br>but the timer keeps running.<br><em>Why?</em></span>
+        <span class="hero-arrow" aria-hidden="true">↓</span>
+      </div>
+      <div class="hero-sub">
+        <h1 class="hero-title">Work Mate</h1>
+        <p class="hero-description">
+          <span class="ja">クリエイターのためのアンビエント作業トラッカー</span>
+          <span class="en">An ambient time tracker for creators</span>
+        </p>
+        <div class="hero-actions">
+          <!-- Steam Wishlist ボタン: SteamストアページURL確定後に href を差し替え -->
+          <a href="https://haruhisky.booth.pm/items/7986308" class="btn btn-hero">
+            <span class="ja">Booth で無料ダウンロード</span>
+            <span class="en">Free Download from Booth</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Concept Section ========== -->
+  <section id="concept" class="section concept">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="ja">コンセプト</span>
+        <span class="en">Concept</span>
+      </h2>
+      <div class="concept-content">
+        <div class="concept-text">
+          <p class="concept-lead">
+            <span class="ja">ペンが止まると、時間も止まる。<br>知りたいのは、本当の作業時間。</span>
+            <span class="en">When the pen stops, time stops too.<br>What you really want to know is your true work hours.</span>
+          </p>
+            <div class="gallery-image-wrapper">
+              <img src="images/bg_slack_morning.png" alt="Working state" loading="lazy">
+            </div>
+
+          <p class="concept-body">
+            <span class="ja">Work Mateは「本当の作業時間」を明らかにする作業記録タイマーです。 <br> クリエイターが作業の手を止めると、タイマーも停止します。<br> キャラクターはあなたの作業状態を静かに映し出す鏡。作業をすると一緒に頑張り、<br>サボると一緒にサボってしまいます。</span>
+            <span class="en">Work Mate is a time-tracking timer that reveals your true work hours. When you stop working, the timer stops too. The character is a quiet mirror reflecting your work state — working hard alongside you, and slacking off right with you when you slack.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Features Section ========== -->
+  <section id="features" class="section features">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="ja">機能</span>
+        <span class="en">Features</span>
+      </h2>
+      <div class="features-grid">
+        <!-- Feature 1: Active Window Detection -->
+        <div class="feature-card" data-animate>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
+          <h3 class="feature-title">
+            <span class="ja">アクティブウィンドウ自動検出</span>
+            <span class="en">Active Window Detection</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="ja">使用中のアプリを自動で認識。CLIP STUDIO PAINTやPhotoshopなど、作業アプリと非作業アプリを自動で分類します。</span>
+            <span class="en">Automatically detects the app you're using. Classifies work apps like CLIP STUDIO PAINT and Photoshop from non-work apps.</span>
+          </p>
+        </div>
+        <!-- Feature 2: Pomodoro Timer -->
+        <div class="feature-card" data-animate>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+          <h3 class="feature-title">
+            <span class="ja">ポモドーロタイマー</span>
+            <span class="en">Pomodoro Timer</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="ja">作業をしないと進まないポモドーロタイマー。サボっていると、ちっともタイマーは進んでくれません。</span>
+            <span class="en">A Pomodoro timer that only ticks when you actually work. Slack off, and it won't budge an inch.</span>
+          </p>
+        </div>
+        <!-- Feature 3: Character Sync -->
+        <div class="feature-card" data-animate>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+          </div>
+          <h3 class="feature-title">
+            <span class="ja">キャラクター連動</span>
+            <span class="en">Character Sync</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="ja">作業状態でキャラクターの表情や背景が変化。あなたの1日に静かに寄り添います。　キャラクターに応じた音楽つき。</span>
+            <span class="en">Character expressions and backgrounds shift with your work state. A quiet companion throughout your day — each with their own music.</span>
+          </p>
+        </div>
+        <!-- Feature 4: Statistics -->
+        <div class="feature-card" data-animate>
+          <div class="feature-icon">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <h3 class="feature-title">
+            <span class="ja">作業統計</span>
+            <span class="en">Work Statistics</span>
+          </h3>
+          <p class="feature-desc">
+            <span class="ja">日別・週別のチャートとカレンダー表示で、作業パターンを俯瞰。自分のリズムを可視化します。</span>
+            <span class="en">Daily and weekly charts with a calendar view to see your work patterns at a glance. Visualize your own rhythm.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Character Gallery Section ========== -->
+  <section id="gallery" class="section gallery">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="ja">キャラクター</span>
+        <span class="en">Characters</span>
+      </h2>
+      <p class="section-subtitle">
+        <span class="ja">作業状態に応じて、キャラクターの表情と背景が変化します。</span>
+        <span class="en">Character expressions and backgrounds change based on your work state</span>
+      </p>
+
+      <!-- State Showcase: Work → Break → Slack -->
+      <div class="gallery-states">
+        <div class="gallery-state" data-animate>
+          <div class="gallery-image-wrapper">
+            <img src="images/bg_work_day.png" alt="Working state" loading="lazy">
+          </div>
+          <p class="gallery-state-label">
+            <span class="ja">作業中 — 一緒に集中</span>
+            <span class="en">Working — Focused together</span>
+          </p>
+        </div>
+        <div class="gallery-state" data-animate>
+          <div class="gallery-image-wrapper">
+            <img src="images/bg_break_morning.png" alt="Break state" loading="lazy">
+          </div>
+          <p class="gallery-state-label">
+            <span class="ja">休憩中 — のんびりリラックス</span>
+            <span class="en">On break — Relaxing together</span>
+          </p>
+        </div>
+        <div class="gallery-state" data-animate>
+          <div class="gallery-image-wrapper">
+            <img src="images/bg_slack_night.png" alt="Slacking state" loading="lazy">
+          </div>
+          <p class="gallery-state-label">
+            <span class="ja">サボり中 — キャラクターもサボる</span>
+            <span class="en">Slacking — They slack off too</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- DLC Characters -->
+      <div class="gallery-dlc">
+        <h3 class="gallery-dlc-title">
+          <span class="ja">追加キャラクター（DLC）</span>
+          <span class="en">Additional Characters (DLC)</span>
+        </h3>
+        <p class="gallery-dlc-desc">
+          <span class="ja">かわいい猫・小悪魔のリナ・ペンギンたち。　新キャラクターたちは今後登場予定。<br>お気に入りのキャラクターと音楽を選んで、あなただけの作業環境を。</span>
+          <span class="en">An adorable cat, the mischievous Lina, a penguin, and more characters coming soon.<br>Pick your favorite character and music to create your own workspace.</span>
+        </p>
+        <div class="gallery-dlc-grid">
+          <div class="dlc-card" data-animate>
+            <img src="images/cat.png" alt="Cat character" loading="lazy">
+          </div>
+          <div class="dlc-card" data-animate>
+            <img src="images/rina.png" alt="Lina character" loading="lazy">
+          </div>
+          <div class="dlc-card" data-animate>
+            <img src="images/penguin.png" alt="Penguin character" loading="lazy">
+          </div>
+          <div class="dlc-card dlc-card-coming" data-animate>
+            <div class="dlc-image-placeholder">
+              <span>coming soon...</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Video Section ========== -->
+  <section id="video" class="section video-section">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="ja">トレーラー</span>
+        <span class="en">Trailer</span>
+      </h2>
+      <div class="video-wrapper">
+        <!-- YouTube埋め込み: 動画URL確定後に src を差し替え -->
+        <div class="video-placeholder">
+          <svg viewBox="0 0 24 24" width="64" height="64" fill="currentColor" opacity="0.5"><path d="M8 5v14l11-7z"/></svg>
+          <p>
+            <span class="ja">トレーラー動画（準備中）</span>
+            <span class="en">Trailer video (Coming soon)</span>
+          </p>
+        </div>
+        <!-- 動画URLが確定したら以下のコメントを解除して差し替え:
+        <iframe
+          src="https://www.youtube.com/embed/YOUR_VIDEO_ID"
+          title="Work Mate Trailer"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
+        </iframe>
+        -->
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Download / Steam Section ========== -->
+  <section id="download" class="section download">
+    <div class="container">
+      <h2 class="section-title">
+        <span class="ja">ダウンロード</span>
+        <span class="en">Download</span>
+      </h2>
+      <div class="download-options">
+        <!-- Steam 
+        <div class="download-card" data-animate>
+          <div class="download-card-badge">Steam</div>
+          <h3 class="download-card-title">
+            <span class="ja">Steam版</span>
+            <span class="en">Steam Edition</span>
+          </h3>
+          <p class="download-card-desc">
+            <span class="ja">自動アップデート対応。追加キャラクターDLC購入可能。</span>
+            <span class="en">Auto-updates included. Purchase additional character DLC.</span>
+          </p>
+          <p class="download-card-price">
+            <span class="ja">基本無料</span>
+            <span class="en">Free to Play</span>
+          </p>  -->
+          <!-- Steam Wishlist ボタン: SteamストアページURL確定後に href を差し替え 
+          <a href="#" class="btn btn-primary btn-block">
+            <span class="ja">Steamでウィッシュリストに追加</span>
+            <span class="en">Wishlist on Steam</span>
+          </a>
+        </div> 
+        -->
+
+        <!-- Booth -->
+        <div class="download-card" data-animate>
+          <div class="download-card-badge">Booth</div>
+          <h3 class="download-card-title">
+            <span class="ja">Booth版（無料）</span>
+            <span class="en">Booth Edition (Free)</span>
+          </h3>
+          <p class="download-card-desc">
+            <span class="ja">デフォルトキャラクター1体付き。すぐにお試しいただけます。</span>
+            <span class="en">Includes one default character. Try it right away.</span>
+          </p>
+          <p class="download-card-price">
+            <span class="ja">無料</span>
+            <span class="en">Free</span>
+          </p>
+          <!-- Booth URL確定後に href を差し替え -->
+          <a href="https://haruhisky.booth.pm/items/7986308" class="btn btn-secondary btn-block">
+            <span class="ja">Boothでダウンロード</span>
+            <span class="en">Download on Booth</span>
+          </a>
+        </div>
+        <!-- Booth complete -->
+        <div class="download-card" data-animate>
+          <div class="download-card-badge">Booth</div>
+          <h3 class="download-card-title">
+            <span class="ja">Booth版（コンプリート版）</span>
+            <span class="en">Booth Edition (Complete)</span>
+          </h3>
+          <p class="download-card-desc">
+            <span class="ja">追加３キャラクター＋36曲付きのコンプリートパック。</span>
+            <span class="en">Complete pack with 3 extra characters and 36 music tracks.</span>
+          </p>
+          <p class="download-card-price">
+            <span class="ja">500円</span>
+            <span class="en">&yen;500</span>
+          </p>
+          <!-- Booth URL確定後に href を差し替え -->
+          <a href="https://haruhisky.booth.pm/items/7986421" class="btn btn-secondary btn-block">
+            <span class="ja">Boothでダウンロード</span>
+            <span class="en">Download on Booth</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========== Footer ========== -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="footer-logo">Work Mate</span>
+          <p class="footer-credit">Created by <a href="https://x.com/haruhisky1" target="_blank" rel="noopener">haruhisky</a></p>
+        </div>
+        <div class="footer-links">
+          <!-- X (Twitter) -->
+          <a href="https://x.com/haruhisky1" target="_blank" rel="noopener" class="footer-social" aria-label="X (Twitter)">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </a>
+          <!-- YouTube -->
+          <a href="#" target="_blank" rel="noopener" class="footer-social" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          </a>
+          <!-- TikTok -->
+          <a href="#" target="_blank" rel="noopener" class="footer-social" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-2.88 2.5 2.89 2.89 0 0 1-2.89-2.89 2.89 2.89 0 0 1 2.89-2.89c.28 0 .54.04.79.1v-3.5a6.37 6.37 0 0 0-.79-.05A6.34 6.34 0 0 0 3.15 15a6.34 6.34 0 0 0 6.34 6.34 6.34 6.34 0 0 0 6.34-6.34V8.1a8.16 8.16 0 0 0 4.76 1.52v-3.4a4.85 4.85 0 0 1-1-.47z"/></svg>
+          </a>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p class="footer-contact">
+          <span class="ja">お問い合わせ: </span>
+          <span class="en">Contact: </span>
+          <a href="https://x.com/haruhisky1" target="_blank" rel="noopener">X (@haruhisky)</a>
+        </p>
+        <p class="footer-copyright">&copy; 2026 haruhisky. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
