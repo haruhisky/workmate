@@ -651,6 +651,13 @@
         var state = this.getAttribute('data-state');
         CharacterDemo.setState(state);
 
+        if (typeof gtag === 'function') {
+          gtag('event', 'demo_state_switch', {
+            event_category: 'demo',
+            event_label: state
+          });
+        }
+
         // Update active button
         buttons.forEach(function (b) {
           b.classList.toggle('active', b.getAttribute('data-state') === state);

@@ -69,6 +69,25 @@
     });
   }
 
+  // ---- Outbound Link Tracking (Booth) ----
+  document.querySelectorAll('a[href*="booth.pm"]').forEach(function (link) {
+    link.addEventListener('click', function () {
+      var href = this.getAttribute('href');
+      var label = href.indexOf('7986421') !== -1 ? 'complete' : 'free';
+      var section = this.closest('section');
+      var location = section ? (section.id || 'unknown') : 'footer';
+
+      if (typeof gtag === 'function') {
+        gtag('event', 'booth_click', {
+          event_category: 'outbound',
+          event_label: label,
+          link_url: href,
+          link_location: location
+        });
+      }
+    });
+  });
+
   // ---- Smooth Scroll for Anchor Links ----
   document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
     anchor.addEventListener('click', function (e) {
