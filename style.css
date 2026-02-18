@@ -311,17 +311,23 @@ a:hover {
   flex-wrap: wrap;
 }
 
-/* ========== Concept ========== */
+/* ========== Concept + Demo ========== */
 .concept {
   background:
     radial-gradient(ellipse at 50% 0%, rgba(102, 126, 234, 0.06) 0%, transparent 60%),
     var(--color-bg-light);
 }
 
-.concept-content {
-  max-width: 680px;
-  margin: 0 auto;
-  text-align: center;
+.concept-demo-layout {
+  display: grid;
+  grid-template-columns: 1fr 400px;
+  gap: 48px;
+  align-items: center;
+  margin-top: 32px;
+}
+
+.concept-text-side {
+  text-align: left;
 }
 
 .concept-lead {
@@ -332,19 +338,33 @@ a:hover {
   color: var(--color-text);
 }
 
-.concept-content .gallery-image-wrapper {
-  margin: 32px auto;
-  max-width: 520px;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid var(--color-border);
-}
-
 .concept-body {
   font-size: 0.95rem;
   color: var(--color-text-muted);
   line-height: 1.9;
-  margin-top: 32px;
+}
+
+.concept-demo-controls {
+  margin-top: 40px;
+}
+
+.concept-demo-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-bottom: 12px;
+}
+
+.concept-demo-side {
+  flex-shrink: 0;
+}
+
+.concept-demo-side .demo-wrapper {
+  margin: 0;
+}
+
+/* Mobile: stack vertically, hide demo, show screenshots */
+.concept-demo-layout .demo-mobile-gallery {
+  display: none;
 }
 
 /* ========== Features ========== */
@@ -675,6 +695,28 @@ a:hover {
 
   .section-title {
     font-size: 1.5rem;
+  }
+
+  /* Concept + Demo: stack on mobile */
+  .concept-demo-layout {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .concept-text-side {
+    text-align: center;
+  }
+
+  .concept-demo-controls {
+    display: none;
+  }
+
+  .concept-demo-side {
+    display: none !important;
+  }
+
+  .concept-demo-layout .demo-mobile-gallery {
+    display: block;
   }
 
   .features-grid {

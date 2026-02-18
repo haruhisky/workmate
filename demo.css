@@ -4,10 +4,6 @@
  */
 
 /* ========== Demo Container ========== */
-.demo-section {
-  padding: 4rem 0;
-}
-
 .demo-wrapper {
   max-width: 400px;
   margin: 0 auto;
@@ -21,9 +17,8 @@
 /* ========== State Control Buttons ========== */
 .demo-state-controls {
   display: flex;
-  justify-content: center;
+  flex-wrap: wrap;
   gap: 0.75rem;
-  margin-top: 1.5rem;
 }
 
 .demo-state-btn {
@@ -73,6 +68,7 @@
   margin-top: 0.75rem;
   font-size: 0.8rem;
   color: rgba(255, 255, 255, 0.4);
+  display: none;
 }
 
 /* ========== App Layout ========== */
@@ -586,24 +582,6 @@
 }
 
 /* ========== Responsive ========== */
-@media (max-width: 768px) {
-  .demo-desktop {
-    display: none !important;
-  }
-
-  .demo-mobile-gallery {
-    display: block;
-  }
-
-  .demo-state-controls {
-    display: none;
-  }
-
-  .demo-hint {
-    display: none;
-  }
-}
-
 @media (min-width: 769px) {
   .demo-mobile-gallery {
     display: none !important;
