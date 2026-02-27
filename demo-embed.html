@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Mate Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+JP:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="demo.css">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', 'Noto Sans JP', sans-serif;
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+}
+.en { display: none; }
+.demo-wrapper {
+  max-width: 380px;
+  width: 100%;
+}
+.demo-app {
+  height: 600px;
+}
+.demo-state-controls {
+  margin-top: 1rem;
+}
+.demo-hint {
+  margin-top: 0.5rem;
+  margin-bottom: 0;
+}
+</style>
+</head>
+<body>
+
+<!-- Demo App -->
+<div class="demo-wrapper">
+  <div class="demo-app">
+    <!-- Character Area -->
+    <div class="demo-character state-work">
+      <div class="demo-char-bg"></div>
+      <div class="demo-char-video-container">
+        <video class="demo-char-video demo-char-video-0 active" muted playsinline></video>
+        <video class="demo-char-video demo-char-video-1" muted playsinline></video>
+      </div>
+      <div class="demo-char-overlay">
+        <div class="demo-state-label">WORK</div>
+        <div class="demo-work-time">00:00:00</div>
+        <div class="demo-work-time-label">今日の作業時間</div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="demo-nav">
+      <button class="demo-nav-tab active" data-tab="timer" title="Timer">&#x23F1;</button>
+      <button class="demo-nav-tab locked" data-tab="week" title="Week Chart">&#x1F4CA;</button>
+      <button class="demo-nav-tab locked" data-tab="day" title="Day Chart">&#x1F4C8;</button>
+      <button class="demo-nav-tab" data-tab="music" title="Music">&#x1F3B5;</button>
+      <button class="demo-nav-tab locked" data-tab="calendar" title="Calendar">&#x1F4C5;</button>
+      <button class="demo-nav-tab locked" data-tab="character" title="Character">&#x1F464;</button>
+      <button class="demo-nav-tab locked" data-tab="settings" title="Settings">&#x2699;</button>
+    </nav>
+
+    <!-- Content Panels -->
+    <div class="demo-content">
+      <!-- Timer Panel -->
+      <div class="demo-panel demo-panel-timer demo-pomodoro active" data-panel="timer">
+        <div class="demo-pomo-status">
+          <span class="demo-pomo-status-icon">&#x23F1;</span>
+          <span class="demo-pomo-status-label">Ready</span>
+        </div>
+        <div class="demo-pomo-display">
+          <div class="demo-pomo-ring">
+            <svg viewBox="0 0 150 150">
+              <circle class="ring-bg" cx="75" cy="75" r="68"/>
+              <circle class="ring-progress demo-pomo-progress" cx="75" cy="75" r="68"/>
+            </svg>
+          </div>
+          <div class="demo-pomo-time">25:00</div>
+        </div>
+        <div class="demo-pomo-controls">
+          <button class="demo-pomo-btn demo-pomo-reset" title="Reset">&#x21BA;</button>
+          <button class="demo-pomo-btn start-btn demo-pomo-start" title="Start">&#x25B6;</button>
+        </div>
+        <div class="demo-pomo-count">
+          <span class="demo-pomo-count-label">完了</span>
+          <span class="demo-pomo-count-value">0</span>
+        </div>
+      </div>
+
+      <!-- Music Panel -->
+      <div class="demo-panel demo-music" data-panel="music">
+        <div class="demo-music-now">
+          <div class="demo-music-now-label">Now Playing</div>
+          <div class="demo-music-now-track">Minimalist</div>
+        </div>
+        <div class="demo-music-controls">
+          <button class="demo-music-btn demo-music-prev" title="Previous">&#x23EE;</button>
+          <button class="demo-music-btn play-btn demo-music-play" title="Play">&#x25B6;</button>
+          <button class="demo-music-btn demo-music-next" title="Next">&#x23ED;</button>
+        </div>
+        <div class="demo-music-volume">
+          <span class="demo-music-volume-icon">&#x1F50A;</span>
+          <input type="range" class="demo-volume-slider" min="0" max="100" value="50">
+        </div>
+        <div class="demo-music-playlist">
+          <div class="demo-playlist-header">Playlist</div>
+          <div class="demo-playlist-items"></div>
+        </div>
+      </div>
+
+      <!-- Locked Panels -->
+      <div class="demo-panel demo-locked" data-panel="week">
+        <div class="demo-locked-icon">&#x1F512;</div>
+        <div class="demo-locked-text">週間チャートはデモ版では利用できません</div>
+        <div class="demo-locked-cta"><a href="https://haruhisky.booth.pm/items/7986308">無料版をダウンロード &rarr;</a></div>
+      </div>
+      <div class="demo-panel demo-locked" data-panel="day">
+        <div class="demo-locked-icon">&#x1F512;</div>
+        <div class="demo-locked-text">日別チャートはデモ版では利用できません</div>
+        <div class="demo-locked-cta"><a href="https://haruhisky.booth.pm/items/7986308">無料版をダウンロード &rarr;</a></div>
+      </div>
+      <div class="demo-panel demo-locked" data-panel="calendar">
+        <div class="demo-locked-icon">&#x1F512;</div>
+        <div class="demo-locked-text">カレンダーはデモ版では利用できません</div>
+        <div class="demo-locked-cta"><a href="https://haruhisky.booth.pm/items/7986308">無料版をダウンロード &rarr;</a></div>
+      </div>
+      <div class="demo-panel demo-locked" data-panel="character">
+        <div class="demo-locked-icon">&#x1F512;</div>
+        <div class="demo-locked-text">キャラクター設定はデモ版では利用できません</div>
+        <div class="demo-locked-cta"><a href="https://haruhisky.booth.pm/items/7986308">無料版をダウンロード &rarr;</a></div>
+      </div>
+      <div class="demo-panel demo-locked" data-panel="settings">
+        <div class="demo-locked-icon">&#x1F512;</div>
+        <div class="demo-locked-text">設定はデモ版では利用できません</div>
+        <div class="demo-locked-cta"><a href="https://haruhisky.booth.pm/items/7986308">無料版をダウンロード &rarr;</a></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- State Control Buttons -->
+<div class="demo-state-controls">
+  <button class="demo-state-btn active" data-state="work">作業中</button>
+  <button class="demo-state-btn" data-state="slacking">ひと息中</button>
+  <button class="demo-state-btn" data-state="break">休憩中</button>
+  <button class="demo-state-btn" data-state="away">離席中</button>
+</div>
+<p class="demo-hint">&#x2191; ボタンで状態を切り替えてみてください</p>
+
+<script>
+// Inline demo.js with mobile check removed
+(function () {
+  'use strict';
+
+  var ASSET_BASE = 'demo/';
+
+  var CharacterDemo = {
+    currentState: 'work',
+    previousState: null,
+    activeVideoIndex: 0,
+    videos: [],
+    currentVideoPath: null,
+    playingType: 'loop',
+    preloadedPath: null,
+    _preloadRequestId: 0,
+    workTimeSec: 0,
+    workTimerInterval: null,
+    randomEventTimer: null,
+    isPlayingEvent: false,
+    RANDOM_EVENTS: { work: ['stretch','drink','think','nob'], break: ['stretch'], slacking: [], away: [] },
+    stateConfig: { work:{label:'WORK'}, break:{label:'BREAK'}, away:{label:'AWAY'}, slacking:{label:'SLACKING'} },
+
+    init: function(){
+      this.el = {
+        area: document.querySelector('.demo-character'),
+        bg: document.querySelector('.demo-char-bg'),
+        label: document.querySelector('.demo-state-label'),
+        time: document.querySelector('.demo-work-time')
+      };
+      this.videos = [document.querySelector('.demo-char-video-0'), document.querySelector('.demo-char-video-1')];
+      this.activeVideoIndex = 0;
+      this.updateVideo();
+      this.startWorkTimer();
+      this.startRandomEventTimer();
+    },
+    getShortState: function(s){ return s==='slacking'?'slack':s; },
+    getLoopFileName: function(s){ var sh=this.getShortState(s); return s==='work'?'loop_work_pen_day':'loop_'+sh+'_day'; },
+    getTransFileName: function(f,t){ return 'trans_'+this.getShortState(f)+'_to_'+this.getShortState(t)+'_day'; },
+    getEventFileName: function(s,a){ return 'event_'+this.getShortState(s)+'_'+a+'_day'; },
+    videoPath: function(folder,base){ return ASSET_BASE+folder+'/'+base; },
+
+    setState: function(state){
+      if(state===this.currentState) return;
+      this.stopRandomEventTimer(); this.isPlayingEvent=false;
+      var prev=this.currentState; this.previousState=prev; this.currentState=state;
+      this.el.area.className='demo-character state-'+state;
+      this.el.label.textContent=this.stateConfig[state].label;
+      if((prev==='work'&&state==='slacking')||(prev==='slacking'&&state==='work')||(prev==='away'&&state==='work')||(prev==='work'&&state==='break')||(prev==='break'&&state==='work')||(prev==='slacking'&&state==='away')){
+        this.playTransition(prev,state);
+      } else { this.updateVideo(); }
+      PomodoroDemo.onStateChange(state);
+    },
+    updateVideo: function(){ this.playLoopVideo(this.getLoopFileName(this.currentState)); },
+    playLoopVideo: function(base){
+      var self=this, webm=this.videoPath('loop',base+'.webm'), mp4=this.videoPath('loop',base+'.mp4');
+      this.playingType='loop'; this.currentVideoPath=webm;
+      this.preloadVideo(webm,true,function(){
+        if(self.preloadedPath){self.playPreloaded();self.updateBg();self.startRandomEventTimer();return;}
+        self.currentVideoPath=mp4;
+        self.preloadVideo(mp4,true,function(){if(self.preloadedPath)self.playPreloaded();self.updateBg();self.startRandomEventTimer();});
+      });
+    },
+    playTransition: function(from,to){
+      var self=this,base=this.getTransFileName(from,to),webm=this.videoPath('transition',base+'.webm'),mp4=this.videoPath('transition',base+'.mp4'),loop=this.getLoopFileName(to);
+      this.playingType='transition'; this.currentVideoPath=webm;
+      this.preloadVideo(webm,false,function(){
+        if(!self.preloadedPath){self.currentVideoPath=mp4;self.preloadVideo(mp4,false,function(){if(!self.preloadedPath){self.playLoopVideo(loop);return;}self._playTransitionVideo(loop);});return;}
+        self._playTransitionVideo(loop);
+      });
+    },
+    _playTransitionVideo: function(loop){
+      var self=this, v=this.getInactiveVideo();
+      v.onended=function(){v.onended=null;self.playLoopVideo(loop);};
+      this.swapVideos(); v.play().catch(function(){self.playLoopVideo(loop);}); this.preloadedPath=null; this.updateBg();
+    },
+    updateBg: function(){ this.el.bg.style.backgroundImage='url('+ASSET_BASE+'background/bg_'+this.getShortState(this.currentState)+'_day.png)'; },
+    getActiveVideo: function(){ return this.videos[this.activeVideoIndex]; },
+    getInactiveVideo: function(){ return this.videos[1-this.activeVideoIndex]; },
+    swapVideos: function(){ var o=this.videos[this.activeVideoIndex],n=this.getInactiveVideo(); this.activeVideoIndex=1-this.activeVideoIndex; o.classList.remove('active'); n.classList.add('active'); o.pause(); },
+    preloadVideo: function(path,loop,cb){
+      var self=this, v=this.getInactiveVideo(); v.oncanplaythrough=null; v.onerror=null;
+      var rid=this._preloadRequestId=(this._preloadRequestId||0)+1;
+      v.loop=loop; v.src=path; v.load();
+      v.oncanplaythrough=function(){v.oncanplaythrough=null;v.onerror=null;if(rid!==self._preloadRequestId)return;self.preloadedPath=path;if(cb)cb();};
+      v.onerror=function(){v.onerror=null;v.oncanplaythrough=null;if(rid!==self._preloadRequestId)return;self.preloadedPath=null;if(cb)cb();};
+    },
+    playPreloaded: function(){ var v=this.getInactiveVideo(); this.swapVideos(); v.play().catch(function(){}); this.preloadedPath=null; },
+    startWorkTimer: function(){ var self=this; this.workTimerInterval=setInterval(function(){if(self.currentState==='work'){self.workTimeSec++;self.updateTimeDisplay();}},1000); },
+    updateTimeDisplay: function(){ var h=Math.floor(this.workTimeSec/3600),m=Math.floor((this.workTimeSec%3600)/60),s=this.workTimeSec%60,p=function(n){return n<10?'0'+n:''+n;}; this.el.time.textContent=p(h)+':'+p(m)+':'+p(s); },
+    startRandomEventTimer: function(){
+      this.stopRandomEventTimer(); if(this.isPlayingEvent)return;
+      var self=this, evts=this.RANDOM_EVENTS[this.currentState]; if(!evts||!evts.length)return;
+      this.randomEventTimer=setTimeout(function(){self.triggerRandomEvent();},60000+Math.random()*120000);
+    },
+    stopRandomEventTimer: function(){ if(this.randomEventTimer){clearTimeout(this.randomEventTimer);this.randomEventTimer=null;} },
+    triggerRandomEvent: function(){
+      var evts=this.RANDOM_EVENTS[this.currentState]; if(!evts||!evts.length||this.playingType!=='loop')return;
+      var action=evts[Math.floor(Math.random()*evts.length)], base=this.getEventFileName(this.currentState,action);
+      var webm=this.videoPath('event',base+'.webm'), mp4=this.videoPath('event',base+'.mp4'), self=this;
+      this.isPlayingEvent=true; this.playingType='event'; this.currentVideoPath=webm;
+      var loop=this.getLoopFileName(this.currentState);
+      this.preloadVideo(webm,false,function(){
+        if(!self.preloadedPath){self.currentVideoPath=mp4;self.preloadVideo(mp4,false,function(){if(!self.preloadedPath){self.isPlayingEvent=false;self.playLoopVideo(loop);return;}self._playEventVideo(loop);});return;}
+        self._playEventVideo(loop);
+      });
+    },
+    _playEventVideo: function(loop){
+      var self=this, v=this.getInactiveVideo();
+      v.onended=function(){v.onended=null;self.isPlayingEvent=false;self.playLoopVideo(loop);};
+      this.swapVideos(); v.play().catch(function(){self.isPlayingEvent=false;self.playLoopVideo(loop);}); this.preloadedPath=null;
+    }
+  };
+
+  var PomodoroDemo = {
+    state:'idle', isRunning:false, totalSeconds:25*60, remainingSeconds:25*60, workDuration:25*60, breakDuration:5*60, completedCount:0, tickInterval:null, circumference:0,
+    init: function(){
+      this.el={panel:document.querySelector('.demo-panel-timer'),time:document.querySelector('.demo-pomo-time'),statusIcon:document.querySelector('.demo-pomo-status-icon'),statusLabel:document.querySelector('.demo-pomo-status-label'),startBtn:document.querySelector('.demo-pomo-start'),resetBtn:document.querySelector('.demo-pomo-reset'),progressBar:document.querySelector('.demo-pomo-progress'),countValue:document.querySelector('.demo-pomo-count-value')};
+      this.circumference=2*Math.PI*68; this.el.progressBar.style.strokeDasharray=this.circumference; this.el.progressBar.style.strokeDashoffset=this.circumference;
+      var self=this; this.el.startBtn.addEventListener('click',function(){self.toggleStartPause();}); this.el.resetBtn.addEventListener('click',function(){self.reset();}); this.updateDisplay();
+    },
+    toggleStartPause: function(){ this.isRunning?this.pause():this.start(); },
+    start: function(){ if(this.state==='idle'){this.state='work';this.totalSeconds=this.workDuration;this.remainingSeconds=this.workDuration;this.updateStatus();} this.isRunning=true;this.el.startBtn.textContent='\u23F8'; var self=this;this.tickInterval=setInterval(function(){self.tick();},1000); },
+    pause: function(){ this.isRunning=false;this.el.startBtn.textContent='\u25B6';if(this.tickInterval){clearInterval(this.tickInterval);this.tickInterval=null;} },
+    reset: function(){ this.pause();this.state='idle';this.totalSeconds=this.workDuration;this.remainingSeconds=this.workDuration;this.el.panel.classList.remove('break-mode');this.updateStatus();this.updateDisplay(); },
+    tick: function(){ if(this.state==='work'&&CharacterDemo.currentState!=='work')return; this.remainingSeconds--;if(this.remainingSeconds<=0){this.onComplete();return;} this.updateDisplay(); },
+    onComplete: function(){ if(this.state==='work'){this.completedCount++;this.el.countValue.textContent=this.completedCount;this.state='break';this.totalSeconds=this.breakDuration;this.remainingSeconds=this.breakDuration;this.el.panel.classList.add('break-mode');} else{this.state='work';this.totalSeconds=this.workDuration;this.remainingSeconds=this.workDuration;this.el.panel.classList.remove('break-mode');} this.updateStatus();this.updateDisplay(); },
+    updateDisplay: function(){ var m=Math.floor(this.remainingSeconds/60),s=this.remainingSeconds%60; this.el.time.textContent=(m<10?'0':'')+m+':'+(s<10?'0':'')+s; var p=this.totalSeconds>0?(this.totalSeconds-this.remainingSeconds)/this.totalSeconds:0; this.el.progressBar.style.strokeDashoffset=this.circumference*(1-p); },
+    updateStatus: function(){ if(this.state==='idle'){this.el.statusIcon.textContent='\u23F1';this.el.statusLabel.textContent='Ready';}else if(this.state==='work'){this.el.statusIcon.textContent='\uD83D\uDCBB';this.el.statusLabel.textContent='Focus Time';}else{this.el.statusIcon.textContent='\u2615';this.el.statusLabel.textContent='Break Time';} },
+    onStateChange: function(){}
+  };
+
+  var MusicDemo = {
+    tracks:[{name:'Minimalist',file:'Minimalist.mp3'},{name:'gentle rain',file:'gentle rain.mp3'},{name:'Water Lily',file:'Water Lily.mp3'}],
+    currentIndex:0, isPlaying:false, audio:null,
+    init: function(){
+      this.audio=new Audio(); this.audio.volume=0.5;
+      this.el={nowTrack:document.querySelector('.demo-music-now-track'),playBtn:document.querySelector('.demo-music-play'),prevBtn:document.querySelector('.demo-music-prev'),nextBtn:document.querySelector('.demo-music-next'),volumeSlider:document.querySelector('.demo-volume-slider'),playlistItems:document.querySelector('.demo-playlist-items')};
+      var self=this;
+      this.el.playBtn.addEventListener('click',function(){self.togglePlay();});
+      this.el.prevBtn.addEventListener('click',function(){self.prev();});
+      this.el.nextBtn.addEventListener('click',function(){self.next();});
+      this.el.volumeSlider.addEventListener('input',function(){self.audio.volume=this.value/100;});
+      this.audio.addEventListener('ended',function(){self.next();});
+      this.renderPlaylist(); this.loadTrack(0);
+    },
+    renderPlaylist: function(){
+      var self=this,html='';
+      for(var i=0;i<this.tracks.length;i++) html+='<div class="demo-playlist-item'+(i===0?' active':'')+'" data-index="'+i+'"><span class="demo-playlist-num">'+(i+1)+'</span><span class="demo-playlist-name">'+this.tracks[i].name+'</span></div>';
+      this.el.playlistItems.innerHTML=html;
+      this.el.playlistItems.addEventListener('click',function(e){var it=e.target.closest('.demo-playlist-item');if(it){self.loadTrack(parseInt(it.getAttribute('data-index'),10));self.play();}});
+    },
+    loadTrack: function(i){ this.currentIndex=i; this.audio.src=ASSET_BASE+'music/'+this.tracks[i].file; this.el.nowTrack.textContent=this.tracks[i].name; this.highlightPlaylistItem(i); },
+    highlightPlaylistItem: function(i){ var items=this.el.playlistItems.querySelectorAll('.demo-playlist-item'); for(var j=0;j<items.length;j++) items[j].classList.toggle('active',j===i); },
+    togglePlay: function(){ this.isPlaying?this.pause():this.play(); },
+    play: function(){ var self=this; this.audio.play().then(function(){self.isPlaying=true;self.el.playBtn.textContent='\u23F8';}).catch(function(){}); },
+    pause: function(){ this.audio.pause();this.isPlaying=false;this.el.playBtn.textContent='\u25B6'; },
+    next: function(){ var i=(this.currentIndex+1)%this.tracks.length; this.loadTrack(i); if(this.isPlaying)this.play(); },
+    prev: function(){ var i=(this.currentIndex-1+this.tracks.length)%this.tracks.length; this.loadTrack(i); if(this.isPlaying)this.play(); }
+  };
+
+  var Navigation = {
+    activeTab:'timer',
+    init: function(){
+      var self=this; document.querySelectorAll('.demo-nav-tab').forEach(function(tab){
+        tab.addEventListener('click',function(){ var t=this.getAttribute('data-tab'); if(this.classList.contains('locked'))return; self.switchTab(t); });
+      });
+    },
+    switchTab: function(t){
+      this.activeTab=t;
+      document.querySelectorAll('.demo-nav-tab').forEach(function(tab){tab.classList.toggle('active',tab.getAttribute('data-tab')===t);});
+      document.querySelectorAll('.demo-panel').forEach(function(p){p.classList.toggle('active',p.getAttribute('data-panel')===t);});
+    }
+  };
+
+  function initStateButtons(){
+    var btns=document.querySelectorAll('.demo-state-btn');
+    btns.forEach(function(btn){
+      btn.addEventListener('click',function(){
+        var state=this.getAttribute('data-state');
+        CharacterDemo.setState(state);
+        btns.forEach(function(b){b.classList.toggle('active',b.getAttribute('data-state')===state);});
+      });
+    });
+  }
+
+  function initDemo(){
+    CharacterDemo.init(); PomodoroDemo.init(); MusicDemo.init(); Navigation.init(); initStateButtons();
+  }
+
+  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',initDemo);
+  else initDemo();
+})();
+</script>
+</body>
+</html>
