@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>とらのあな新規約 保管料シミュレーター | DL同人教室</title>
+<meta name="description" content="2026年4月からのとらのあな新規約で、保管料がどれだけかかるかシミュレーションできます。">
+<meta property="og:title" content="とらのあな新規約 保管料シミュレーター">
+<meta property="og:description" content="年間発行種類数と廃棄タイミングを入力するだけで、10年分の保管料を新旧規約で比較できます。">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.9/babel.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{background:#0a0a0a;color:#e0e0e0;font-family:'Noto Sans JP','Hiragino Sans',sans-serif;-webkit-font-smoothing:antialiased}
+input[type=range]{-webkit-appearance:none;appearance:none;width:100%;height:6px;background:#333;border-radius:3px;outline:none;cursor:pointer}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;background:#ff4444;border-radius:50%;cursor:pointer;border:2px solid #0a0a0a}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;background:#ff4444;border-radius:50%;cursor:pointer;border:2px solid #0a0a0a}
+table{border-collapse:collapse;width:100%}
+@media(max-width:480px){.detail-table{font-size:10px !important}}
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel">
+const {useState,useMemo}=React;
+
+// 13ヶ月目以降の300部超(301〜600部)の金額を1300円(800+500)に修正
+const R_SN=500,R_SH=800,R_LN=1000,R_LH=1300;
+
+function mc(age,isL){
+  // 入荷月(age=0)の翌月(age=1)から保管料発生
+  if(age<1)return 0;
+  const n=isL?R_LN:R_SN, h=isL?R_LH:R_SH;
+  // 入荷月を含めて13ヶ月目(age=12)以降に値上がり
+  return age<12?n:h;
+}
+
+function sim(tpy,lpy,dm,yrs){
+  const titles=[];
+  for(let y=0;y<yrs;y++){
+    for(let i=0;i<tpy;i++){
+      titles.push({em:y*12+Math.floor(i*12/tpy),isL:i<lpy});
+    }
+  }
+  const yn=Array(yrs).fill(0),yc=Array(yrs).fill(0);
+  for(let y=0;y<yrs;y++){
+    let c=0;const ys=y*12,ye=ys+12;
+    for(const t of titles){
+      const dp=dm===999?Infinity:t.em+dm;
+      for(let m=ys;m<ye;m++){
+        if(m<=t.em||m>=dp)continue;
+        c+=mc(m-t.em,t.isL);
+      }
+    }
+    yn[y]=c;yc[y]=y===0?c:yc[y-1]+c;
+  }
+  return{yn,yc};
+}
+
+function simOld(tpy,lpy,dm,yrs,sb){
+  const titles=[],fp=sb?6:3,OR=300,ORL=600;
+  for(let y=0;y<yrs;y++){
+    for(let i=0;i<tpy;i++){
+      titles.push({em:y*12+Math.floor(i*12/tpy),isL:i<lpy});
+    }
+  }
+  const yn=Array(yrs).fill(0),yc=Array(yrs).fill(0);
+  for(let y=0;y<yrs;y++){
+    let c=0;const ys=y*12,ye=ys+12;
+    for(const t of titles){
+      const dp=dm===999?Infinity:t.em+dm,fu=t.em+fp;
+      for(let m=ys;m<ye;m++){
+        if(m<=t.em||m>=dp||m<fu)continue;
+        c+=t.isL?ORL:OR;
+      }
+    }
+    yn[y]=c;yc[y]=y===0?c:yc[y-1]+c;
+  }
+  return{yn,yc};
+}
+
+function fy(n){
+  if(n>=10000){const m=Math.floor(n/10000),r=n%10000;return r===0?m+"\u4E07":m+"\u4E07"+r.toLocaleString();}
+  return n.toLocaleString();
+}
+
+function Slider({label,value,onChange,min,max,step=1,suffix="",options=null}){
+  return(
+    <div style={{marginBottom:20}}>
+      <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
+        <label style={{fontSize:13,fontWeight:600,color:"#e0e0e0",letterSpacing:"0.02em"}}>{label}</label>
+        <span style={{fontSize:22,fontWeight:800,color:"#ff4444"}}>
+          {options?options.find(o=>o.v===value)?.l:value}{suffix}
+        </span>
+      </div>
+      <input type="range" min={min} max={max} step={step} value={value}
+        onChange={e=>onChange(Number(e.target.value))}/>
+      <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"#666",marginTop:2}}>
+        <span>{options?options[0]?.l:`${min}${suffix}`}</span>
+        <span>{options?options[options.length-1]?.l:`${max}${suffix}`}</span>
+      </div>
+    </div>
+  );
+}
+
+function App(){
+  const[tpy,setTpy]=useState(2);
+  const[lt,setLt]=useState(0);
+  const[dm,setDm]=useState(12);
+  const[sb,setSb]=useState(false);
+  const Y=10;
+
+  const dopts=[{v:3,l:"3ヶ月"},{v:6,l:"6ヶ月"},{v:12,l:"1年"},{v:24,l:"2年"},{v:36,l:"3年"},{v:60,l:"5年"},{v:999,l:"廃棄しない"}];
+  const di=dopts.findIndex(o=>o.v===dm);
+
+  const nr=useMemo(()=>sim(tpy,lt,dm,Y),[tpy,lt,dm]);
+  const or=useMemo(()=>simOld(tpy,lt,dm,Y,sb),[tpy,lt,dm,sb]);
+  const mx=Math.max(...nr.yc,1);
+
+  return(
+    <div style={{minHeight:"100vh",padding:"24px 16px"}}>
+      <div style={{maxWidth:720,margin:"0 auto"}}>
+        <div style={{textAlign:"center",marginBottom:32}}>
+          <div style={{fontSize:11,letterSpacing:"0.3em",color:"#ff4444",fontWeight:600,marginBottom:4}}>
+            DL同人教室 ─ SIMULATION TOOL
+          </div>
+          <h1 style={{fontSize:24,fontWeight:900,color:"#fff",lineHeight:1.3,margin:"0 0 8px"}}>
+            とらのあな新規約<br/>保管料シミュレーター
+          </h1>
+          <p style={{fontSize:12,color:"#888",margin:0}}>
+            2026年4月以降に登録される作品が対象（税抜表示）
+          </p>
+        </div>
+
+        <div style={{background:"#141414",borderRadius:12,padding:"20px 20px 4px",border:"1px solid #222",marginBottom:24}}>
+          <Slider label="年間の新刊発行種類数" value={tpy} onChange={setTpy} min={1} max={12} suffix="種"/>
+          {/* 約款に合わせて「300部超」にテキストを修正 */}
+          <Slider label="うち300部超の作品数（301〜600部想定）" value={lt} onChange={v=>setLt(Math.min(v,tpy))} min={0} max={tpy} suffix="種"/>
+          <div style={{marginBottom:20}}>
+            <div style={{display:"flex",justifyContent:"space-between",alignItems:"baseline",marginBottom:6}}>
+              <label style={{fontSize:13,fontWeight:600,color:"#e0e0e0",letterSpacing:"0.02em"}}>廃棄までの期間</label>
+              <span style={{fontSize:22,fontWeight:800,color:"#ff4444"}}>{dopts[di]?.l}</span>
+            </div>
+            <input type="range" min={0} max={dopts.length-1} step={1} value={di}
+              onChange={e=>setDm(dopts[Number(e.target.value)].v)}/>
+            <div style={{display:"flex",justifyContent:"space-between",fontSize:10,color:"#666",marginTop:2}}>
+              <span>3ヶ月</span><span>廃棄しない</span>
+            </div>
+          </div>
+          <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:16,padding:"10px 12px",background:"#1a1a1a",borderRadius:8}}>
+            <span style={{fontSize:12,color:"#aaa"}}>旧規約の比較基準：</span>
+            {[{v:false,l:"併売(3ヶ月無料)"},{v:true,l:"専売(6ヶ月無料)"}].map(o=>(
+              <button key={String(o.v)} onClick={()=>setSb(o.v)}
+                style={{padding:"4px 12px",borderRadius:4,border:"none",fontSize:12,fontWeight:600,cursor:"pointer",
+                  background:sb===o.v?"#ff4444":"#333",color:sb===o.v?"#fff":"#888"}}>{o.l}</button>
+            ))}
+          </div>
+        </div>
+
+        <div style={{display:"grid",gridTemplateColumns:"1fr 1fr",gap:12,marginBottom:24}}>
+          <div style={{background:"linear-gradient(135deg,#1a0000,#2a0000)",border:"1px solid #441111",borderRadius:12,padding:16,textAlign:"center"}}>
+            <div style={{fontSize:10,color:"#ff6666",fontWeight:600,marginBottom:4}}>新規約 10年累計</div>
+            <div style={{fontSize:28,fontWeight:900,color:"#ff4444"}}>¥{fy(nr.yc[Y-1])}</div>
+          </div>
+          <div style={{background:"linear-gradient(135deg,#0a0a14,#0a0a1a)",border:"1px solid #222244",borderRadius:12,padding:16,textAlign:"center"}}>
+            <div style={{fontSize:10,color:"#6688ff",fontWeight:600,marginBottom:4}}>旧規約 10年累計</div>
+            <div style={{fontSize:28,fontWeight:900,color:"#4466dd"}}>¥{fy(or.yc[Y-1])}</div>
+          </div>
+        </div>
+
+        {nr.yc[Y-1]>or.yc[Y-1]&&(
+          <div style={{background:"#1a0808",border:"1px solid #442222",borderRadius:8,padding:"10px 16px",marginBottom:24,textAlign:"center"}}>
+            <span style={{fontSize:12,color:"#cc8888"}}>10年間の負担増：</span>
+            <span style={{fontSize:20,fontWeight:900,color:"#ff4444",marginLeft:8}}>+¥{fy(nr.yc[Y-1]-or.yc[Y-1])}</span>
+          </div>
+        )}
+
+        <div style={{background:"#141414",borderRadius:12,padding:20,border:"1px solid #222",marginBottom:24}}>
+          <div style={{fontSize:13,fontWeight:600,color:"#aaa",marginBottom:16}}>累計保管料の推移</div>
+          <div style={{display:"flex",flexDirection:"column",gap:6}}>
+            {nr.yc.map((c,i)=>{
+              const oc=or.yc[i];
+              const nw=mx>0?(c/mx)*100:0;
+              const ow=mx>0?(oc/mx)*100:0;
+              return(
+                <div key={i} style={{display:"flex",alignItems:"center",gap:8}}>
+                  <div style={{width:40,textAlign:"right",fontSize:11,color:"#888",fontWeight:600,flexShrink:0}}>{i+1}年目</div>
+                  <div style={{flex:1,position:"relative",height:22}}>
+                    <div style={{position:"absolute",top:0,left:0,height:"100%",width:`${Math.max(nw,0.5)}%`,
+                      background:"linear-gradient(90deg,#cc2222,#ff4444)",borderRadius:3,transition:"width 0.4s ease"}}/>
+                    <div style={{position:"absolute",top:0,left:0,height:"100%",width:`${Math.max(ow,0)}%`,
+                      background:"rgba(68,102,221,0.5)",borderRadius:3,transition:"width 0.4s ease",
+                      borderRight:ow>0?"2px solid #4466dd":"none"}}/>
+                  </div>
+                  <div style={{width:75,textAlign:"right",fontSize:11,color:"#ff6666",fontWeight:700,flexShrink:0,
+                    fontVariantNumeric:"tabular-nums"}}>¥{fy(c)}</div>
+                </div>
+              );
+            })}
+          </div>
+          <div style={{display:"flex",gap:16,marginTop:12,justifyContent:"center"}}>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              <div style={{width:12,height:12,background:"#ff4444",borderRadius:2}}/><span style={{fontSize:10,color:"#888"}}>新規約</span>
+            </div>
+            <div style={{display:"flex",alignItems:"center",gap:4}}>
+              <div style={{width:12,height:12,background:"#4466dd",borderRadius:2}}/><span style={{fontSize:10,color:"#888"}}>旧規約</span>
+            </div>
+          </div>
+        </div>
+
+        <div style={{background:"#141414",borderRadius:12,padding:20,border:"1px solid #222",marginBottom:24,overflowX:"auto"}}>
+          <div style={{fontSize:13,fontWeight:600,color:"#aaa",marginBottom:12}}>年別詳細（税抜）</div>
+          <table className="detail-table" style={{fontSize:12}}>
+            <thead>
+              <tr>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#888",textAlign:"left",fontWeight:600}}></th>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#ff6666",textAlign:"right",fontWeight:600}}>新・年額</th>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#ff4444",textAlign:"right",fontWeight:700}}>新・累計</th>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#6688ff",textAlign:"right",fontWeight:600}}>旧・年額</th>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#4466dd",textAlign:"right",fontWeight:700}}>旧・累計</th>
+                <th style={{padding:"8px 4px",borderBottom:"1px solid #333",color:"#ffaa44",textAlign:"right",fontWeight:700}}>差額</th>
+              </tr>
+            </thead>
+            <tbody>
+              {nr.yn.map((cost,i)=>{
+                const diff=nr.yc[i]-or.yc[i];
+                return(
+                  <tr key={i} style={{borderBottom:"1px solid #1a1a1a"}}>
+                    <td style={{padding:"7px 4px",color:"#aaa",fontWeight:600}}>{i+1}年目</td>
+                    <td style={{padding:"7px 4px",textAlign:"right",color:"#ff8888",fontVariantNumeric:"tabular-nums"}}>¥{cost.toLocaleString()}</td>
+                    <td style={{padding:"7px 4px",textAlign:"right",color:"#ff4444",fontWeight:700,fontVariantNumeric:"tabular-nums"}}>¥{nr.yc[i].toLocaleString()}</td>
+                    <td style={{padding:"7px 4px",textAlign:"right",color:"#8899dd",fontVariantNumeric:"tabular-nums"}}>¥{or.yn[i].toLocaleString()}</td>
+                    <td style={{padding:"7px 4px",textAlign:"right",color:"#4466dd",fontWeight:700,fontVariantNumeric:"tabular-nums"}}>¥{or.yc[i].toLocaleString()}</td>
+                    <td style={{padding:"7px 4px",textAlign:"right",color:"#ffaa44",fontWeight:700,fontVariantNumeric:"tabular-nums"}}>{diff>0?`+¥${diff.toLocaleString()}`:"—"}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div style={{background:"#111",borderRadius:8,padding:14,border:"1px solid #1a1a1a",marginBottom:16}}>
+          <div style={{fontSize:11,fontWeight:600,color:"#888",marginBottom:6}}>計算条件</div>
+          <ul style={{margin:0,paddingLeft:16,fontSize:11,color:"#666",lineHeight:1.8}}>
+            {/* 文言を約款通りに修正 */}
+            <li>新規約：入荷翌月から保管料発生。12ヶ月目まで500円/月（301〜600部は1,000円）、13ヶ月目以降800円/月（301〜600部は1,300円）</li>
+            <li>旧規約：委託期間中は無料（{sb?"専売6ヶ月":"併売3ヶ月"}）。期間後は300円/月（300部超は600円）</li>
+            <li>販売協力プラン・売り切りチャレンジプランによる免除は考慮していません</li>
+            <li>旧規約では委託期間後もとらのあなの裁量で無料継続されるケースがありましたが、本計算では規約通りに保管料が発生する前提で計算しています</li>
+            <li>新刊は年間を通じて均等に入荷するものとして計算</li>
+            <li>金額はすべて税抜表示です</li>
+          </ul>
+        </div>
+
+        <div style={{textAlign:"center",padding:"12px 0 32px"}}>
+          <div style={{fontSize:10,color:"#444",marginBottom:8}}>ハルヒスキーのDL同人教室</div>
+          <div style={{fontSize:10,color:"#333"}}>※ 本ツールは2026年2月27日発表の取引約款に基づき作成しています。正確な条件は公式規約をご確認ください。</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
+</script>
+</body>
+</html>
